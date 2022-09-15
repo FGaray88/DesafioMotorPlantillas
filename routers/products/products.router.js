@@ -40,9 +40,21 @@ router.post("/", async (req, res) => {
 
 
 router.put("/:id", async (req, res) => {
-
   const { id } = req.params;
-  const getId = await products.getById(+(id))
+  const { title, price, thumbnail } = req.body;
+  console.log(req.body);
+  if ( !title || !price || !thumbnail) {
+      return res.status(400).json({ success: false, error: 'Wrong body format' });
+  }
+  const newProduct = {
+    title,
+    price: +(price),
+    thumbnail,
+    id: +(id)
+};
+  const updatedID = await products.updateById(+(id), newProduct)
+  return res.json(updatedID);
+
 });
 
 router.delete("/:id", async (req, res) => {

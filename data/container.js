@@ -37,6 +37,19 @@ class Contenedor {
         }
     }
 
+    async updateById(Number, newProduct) {
+        const data = await leerArchivo(this.archivo)
+        const found = data.findIndex(p => p.id === +(Number));
+        if (found == -1) {
+            const text = "Producto no encontrado";
+            return text;
+        } else {
+            data.splice(found, 1, newProduct);
+            escribirArchivo(this.archivo, JSON.stringify(data))
+            return "archivo actualizado correctamente";
+        }
+    }
+
     async getAll() {
         const data = await leerArchivo(this.archivo);
         return data;
